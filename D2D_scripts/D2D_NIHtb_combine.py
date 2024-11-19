@@ -73,7 +73,7 @@ self_r = self_r.drop(columns= ['Unnamed: 0', 'redcap_survey_identifier', 'send_f
 self_r = self_r.rename(columns= {'pt_id': 'PID'})
 # %%
 #merge dfs into single df
-combined = pd.merge(self_r, nihtb, on= 'PID')
+combined = pd.merge(self_r, nihtb, on= 'PID', how= 'outer')
 combined.head()
 # %%
 # Move PID to first column, and NIH toolbox report requested and participant notes to the end
