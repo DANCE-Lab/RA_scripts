@@ -51,13 +51,17 @@ d2d = self_r
 id_cols = ['participant_information_form_timestamp', 'consent_version', 'irb_number', 'irb_date', 
            'pt_first_name', 'pt_last_name', 'pt_email', 'who_sign', 'in_person_consent', 'participant_information_form_complete', 
            'consent_form_timestamp', 'child_name', 'parent_name', 'sig_parent', 'parent_date', 'sig_worker', 'worker_name', 
-           'worker_date', 'demo_birthday', 'demo_current_street', 'street_1', 'street_2', 'street_3']
+           'worker_date', 'demo_birthday', 'demo_current_street', 'street_1', 'street_2', 'street_3', 'city_1', 'city_2', 'city_3',
+            'state_1', 'state_2', 'state_3', 'zipcode_1', 'zipcode_2', 'zipcode_3', 'email_box']
 id_df_cols = ['PID', 'record_id', 'participant_information_form_timestamp', 'consent_version', 'irb_number', 'irb_date', 
            'pt_first_name', 'pt_last_name',  'pt_email', 'who_sign', 'in_person_consent', 'participant_information_form_complete', 
            'consent_form_timestamp', 'child_name', 'parent_name', 'sig_parent', 'parent_date', 'sig_worker', 'worker_name', 
            'worker_date', 'demo_birthday', 'demo_current_street', 'demo_current_city', 'demo_current_state', 'demo_current_zipcode',
            'street_1', 'street_2', 'street_3', 'city_1', 'city_2', 'city_3', 'state_1', 'state_2', 'state_3',
-           'zipcode_1', 'zipcode_2', 'zipcode_3',]
+           'zipcode_1', 'zipcode_2', 'zipcode_3', 'email_box']
+geocoding_cols = ['PID', 'demo_current_street', 'street_1', 'street_2', 'street_3', 'city_1', 'city_2', 'city_3',
+            'state_1', 'state_2', 'state_3', 'zipcode_1', 'zipcode_2', 'zipcode_3']
+birthday = ['PID', 'participant_information_form_timestamp', 'demo_birthday']
 # %%
 #Create df without identifiers
 d2d_deid = d2d.drop(columns=id_cols)
@@ -65,12 +69,24 @@ d2d_deid = d2d.drop(columns=id_cols)
 #Create identifier df
 d2d_id_df = d2d[id_df_cols]
 d2d_id_df.head()
+
+#create geocoding df
+geo = d2d[geocoding_cols]
+
+#create birthday df for calculating exact age
+bday = d2d[birthday]
 # %%
 #Export deidentified data
 d2d_deid.to_csv('.../d2d_deidentified_self_report_data.csv', index=False)
 
 #Export identifier data
 d2d_id_df.to_csv('.../d2d_identifiers.csv', index=False)
+
+#Export geocoding data
+geo.to_csv('.../d2d_geocoding.csv', index=False)
+
+#Export birthday data
+bday.to_csv('.../d2d_birthday.csv', index=False)
 # %%
 #Isolate columns in the Multidimensional Neighborhood Perceived Opportunity Scale
 d2d_cols = list(d2d_deid.columns)
